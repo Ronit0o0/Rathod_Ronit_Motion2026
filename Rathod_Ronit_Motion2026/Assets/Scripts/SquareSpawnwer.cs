@@ -23,9 +23,16 @@ public class SquareSpawnwer : MonoBehaviour
 
         worldMousePosition.z = 0f;
 
-        Vector2 point1plus2 = point1 - point2;
+        Vector2 point11 = (Vector2)worldMousePosition + new Vector2 (point1.x, point1.y);
+        Vector2 point22 = (Vector2)worldMousePosition + new Vector2(point2.x, point2.y);
+        Vector2 point33 = (Vector2)worldMousePosition + new Vector2(point3.x, point3.y);
+        Vector2 point44 = (Vector2)worldMousePosition + new Vector2(point4.x, point4.y);
 
-        Debug.DrawLine(worldMousePosition, point1plus2, Color.white);
+        Debug.DrawLine(point11, point22, Color.white);
+        Debug.DrawLine(point22, point33, Color.white);
+        Debug.DrawLine(point33, point44, Color.white);
+        Debug.DrawLine(point44, point11, Color.white);
+
 
 
 
