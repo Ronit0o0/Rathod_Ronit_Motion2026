@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using Mono.Cecil.Cil;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -14,7 +15,9 @@ public class Player : MonoBehaviour
     {
         if (Keyboard.current.bKey.wasPressedThisFrame)
         {
-            SpawnBombAtOffset(new Vector2(0, 1));
+            //SpawnBombAtOffset(new Vector2(0, 1));
+            //SpawnBombOnRandomCorner(1f);
+            SpawnBombTrail(transform.position,1f, 3);
         }
 
         if (Keyboard.current.wKey.wasPressedThisFrame)
@@ -32,14 +35,29 @@ public class Player : MonoBehaviour
         Instantiate(bombPrefab, spawnBomb, Quaternion.identity, bombsTransform);
     }
 
+    public void SpawnBombTrail(Vector2 inPosition, float inBombSpacing, int inNumber)
+    {
+        for (int i = 0; i < inNumber; i++)
+        {
+            Vector2 spawnBomb = inPosition - new Vector2(0, 1 + (inBombSpacing * i));
+            Instantiate(bombPrefab, spawnBomb, Quaternion.identity, bombsTransform);
+        }
+        
+    }
+
     void WarpDrive()
     {
+
         Vector2 warpDirection = (Vector2)(enemyTransform.position - transform.position);
 
         warpDirection.Normalize();
 
         transform.position = warpDirection;
+    }
 
-
+    public void SpawnBombOnRandomCorner(float inDistance)
+    {
+        //Vector2 spawnBomb = transform.position + 
+        //Instantiate(bombPrefab, spawnBomb, Quaternion.identity, bombsTransform);
     }
 }
