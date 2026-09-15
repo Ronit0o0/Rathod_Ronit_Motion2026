@@ -57,7 +57,6 @@ public class Player : MonoBehaviour
 
     public void SpawnBombOnRandomCorner(float inDistance)
     {
-        //Vector2 spawnBomb = transform.position + 
-        //Instantiate(bombPrefab, spawnBomb, Quaternion.identity, bombsTransform);
+        Vector2 spawn = (Vector2)transform.position + new Vector2 (Random.Range(-1, 2), Random.Range(-1, 2)) * inDistance;
     }
 }
