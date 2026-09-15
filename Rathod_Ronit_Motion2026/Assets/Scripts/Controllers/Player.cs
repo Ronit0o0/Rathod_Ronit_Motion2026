@@ -52,7 +52,7 @@ public class Player : MonoBehaviour
 
         warpDirection.Normalize();
 
-        transform.position = warpDirection;
+         transform.position = warpDirection;
     }
 
     public void SpawnBombOnRandomCorner(float inDistance)
