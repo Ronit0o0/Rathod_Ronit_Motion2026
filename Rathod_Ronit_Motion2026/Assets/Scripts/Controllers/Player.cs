@@ -11,9 +11,13 @@ public class Player : MonoBehaviour
     public Transform enemyTransform;
     public GameObject bombPrefab;
     public Transform bombsTransform;
+    private Vector3 currentVelocity;
+    public float speed = 5f;
 
     void Update()
     {
+        
+
         if (Keyboard.current.bKey.wasPressedThisFrame)
         {
             //SpawnBombAtOffset(new Vector2(0, 1));
@@ -27,6 +31,8 @@ public class Player : MonoBehaviour
         }
 
         DetectAsteroids(2f, asteroidTransforms);
+
+        PlayerMovement();
     }
 
     void SpawnBombAtOffset(Vector2 inOffset)
@@ -86,4 +92,28 @@ public class Player : MonoBehaviour
             }
         }
     }
+
+     void PlayerMovement()
+    {
+        currentVelocity = Vector3.zero;
+        if(Keyboard.current.leftArrowKey.isPressed)
+        {
+            currentVelocity += Vector3.left;
+        }
+        if (Keyboard.current.rightArrowKey.isPressed)
+        {
+            currentVelocity += Vector3.right;
+        }
+        if (Keyboard.current.upArrowKey.isPressed)
+        {
+            currentVelocity += Vector3.up;
+        }
+        if (Keyboard.current.downArrowKey.isPressed)
+        {
+            currentVelocity += Vector3.down;
+        }
+
+        transform.position = transform.position + currentVelocity.normalized * speed;
+    }
+
 }
