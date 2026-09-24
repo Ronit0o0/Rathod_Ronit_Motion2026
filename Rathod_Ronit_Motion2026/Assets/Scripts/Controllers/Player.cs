@@ -15,10 +15,12 @@ public class Player : MonoBehaviour
     public float speed = 5f;
     public float maxSpeedTime = 2f;
     public float currenetAcceleration;
-
+    public float decelerationTime;
+    public float currentDeceleration;
     void Start()
     {
         currenetAcceleration = speed / maxSpeedTime;
+        currentDeceleration = speed / decelerationTime;
     }
 
     void Update()
@@ -103,7 +105,7 @@ public class Player : MonoBehaviour
      void PlayerMovement()
     {
         
-
+        Vector3 decelrationDirection = Vector3.zero;
         Vector3 accelerationDirection = Vector3.zero;
         if(Keyboard.current.leftArrowKey.isPressed)
         {
@@ -126,9 +128,19 @@ public class Player : MonoBehaviour
         //ACCELERATION DIRECTION REPRESENTS THE DIRECTION WE ARE ACCELERATING
         //WE NORMALIZE IT 
         //AND THEN SET THE AMOUNT TO ACCELERATE BY:
-        currentVelocity += accelerationDirection.normalized * currenetAcceleration * speed;
+        if (accelerationDirection != Vector3.zero)
+        {
+            currentVelocity += accelerationDirection.normalized * currenetAcceleration * speed; 
+        }
+        else
+        {
+            currentVelocity += -currentVelocity.normalized * currenetAcceleration * speed;
+        }
+       
 
         transform.position += currentVelocity * Time.deltaTime;
+
+
     }
 
 }
