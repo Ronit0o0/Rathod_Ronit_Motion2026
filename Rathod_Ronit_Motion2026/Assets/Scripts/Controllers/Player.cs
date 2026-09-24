@@ -13,6 +13,13 @@ public class Player : MonoBehaviour
     public Transform bombsTransform;
     private Vector3 currentVelocity;
     public float speed = 5f;
+    public float maxSpeedTime = 2f;
+    public float currenetAcceleration;
+
+    void Start()
+    {
+        currenetAcceleration = speed / maxSpeedTime;
+    }
 
     void Update()
     {
@@ -95,25 +102,33 @@ public class Player : MonoBehaviour
 
      void PlayerMovement()
     {
-        currentVelocity = Vector3.zero;
+        
+
+        Vector3 accelerationDirection = Vector3.zero;
         if(Keyboard.current.leftArrowKey.isPressed)
         {
-            currentVelocity += Vector3.left;
+            accelerationDirection += Vector3.left;
         }
         if (Keyboard.current.rightArrowKey.isPressed)
         {
-            currentVelocity += Vector3.right;
+            accelerationDirection += Vector3.right;
         }
         if (Keyboard.current.upArrowKey.isPressed)
         {
-            currentVelocity += Vector3.up;
+            accelerationDirection += Vector3.up;
         }
         if (Keyboard.current.downArrowKey.isPressed)
         {
-            currentVelocity += Vector3.down;
+            accelerationDirection += Vector3.down;
         }
 
-        transform.position = transform.position + currentVelocity.normalized * speed;
+        //Notes from Code share
+        //ACCELERATION DIRECTION REPRESENTS THE DIRECTION WE ARE ACCELERATING
+        //WE NORMALIZE IT 
+        //AND THEN SET THE AMOUNT TO ACCELERATE BY:
+        currentVelocity += accelerationDirection.normalized * currenetAcceleration * speed;
+
+        transform.position += currentVelocity * Time.deltaTime;
     }
 
 }
