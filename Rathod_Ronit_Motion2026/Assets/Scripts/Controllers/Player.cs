@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using Unity.VisualScripting;
+using System.Data.Common;
 
 
 public class Player : MonoBehaviour
@@ -17,6 +18,7 @@ public class Player : MonoBehaviour
     public float currenetAcceleration;
     public float decelerationTime;
     public float currentDeceleration;
+    float enemySpeed = 1f;
     void Start()
     {
         currenetAcceleration = speed / maxSpeedTime;
@@ -42,6 +44,8 @@ public class Player : MonoBehaviour
         DetectAsteroids(2f, asteroidTransforms);
 
         PlayerMovement();
+
+        EnemyMovement(8f);
     }
 
     void SpawnBombAtOffset(Vector2 inOffset)
@@ -142,5 +146,24 @@ public class Player : MonoBehaviour
 
 
     }
+    public void EnemyMovement(float enemyToPlayerThreshold)
+    {
+        float enemyDitanceToPlayer = Vector3.Distance(enemyTransform.position, transform.position);
 
+        Vector2 directionToTarget = (Vector2)enemyTransform.position - (Vector2)transform.position;
+
+        Vector2 normalizeDirectionToTarget = directionToTarget.normalized;
+
+        enemyTransform.position -= (Vector3)normalizeDirectionToTarget * enemySpeed * Time.deltaTime;
+
+        if (enemyDitanceToPlayer >= enemyToPlayerThreshold)
+        {
+            enemySpeed = 3.5f;
+            
+        }
+        else if (enemyDitanceToPlayer <= enemyToPlayerThreshold)
+        {
+            enemySpeed = 1.5f;
+        }
+    }
 }
