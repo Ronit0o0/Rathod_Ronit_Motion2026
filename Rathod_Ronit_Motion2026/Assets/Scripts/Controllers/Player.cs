@@ -19,6 +19,9 @@ public class Player : MonoBehaviour
     public float decelerationTime;
     public float currentDeceleration;
     float enemySpeed = 1f;
+    public List<float> circlePointAngles;
+    public float radiusControl = 0f;
+    public Color circleColor = Color.green;
     void Start()
     {
         currenetAcceleration = speed / maxSpeedTime;
@@ -27,13 +30,13 @@ public class Player : MonoBehaviour
 
     void Update()
     {
-        
+
 
         if (Keyboard.current.bKey.wasPressedThisFrame)
         {
             //SpawnBombAtOffset(new Vector2(0, 1));
             //SpawnBombOnRandomCorner(1f);
-            SpawnBombTrail(transform.position,1f, 3);
+            SpawnBombTrail(transform.position, 1f, 3);
         }
 
         if (Keyboard.current.wKey.wasPressedThisFrame)
@@ -46,6 +49,8 @@ public class Player : MonoBehaviour
         PlayerMovement();
 
         EnemyMovement(8f);
+
+        EnenmyRadar(radiusControl);
     }
 
     void SpawnBombAtOffset(Vector2 inOffset)
@@ -64,7 +69,7 @@ public class Player : MonoBehaviour
             Vector2 spawnBomb = inPosition - new Vector2(0, 1 + (inBombSpacing * i));
             Instantiate(bombPrefab, spawnBomb, Quaternion.identity, bombsTransform);
         }
-        
+
     }
 
     void WarpDrive()
@@ -74,12 +79,12 @@ public class Player : MonoBehaviour
 
         warpDirection.Normalize();
 
-         transform.position = warpDirection;
+        transform.position = warpDirection;
     }
 
     public void SpawnBombOnRandomCorner(float inDistance)
     {
-        Vector2 spawn = (Vector2)transform.position + new Vector2 (Random.Range(-1, 2), Random.Range(-1, 2)) * inDistance;
+        Vector2 spawn = (Vector2)transform.position + new Vector2(Random.Range(-1, 2), Random.Range(-1, 2)) * inDistance;
     }
 
     public static float GetMagnitude(Vector2 vector)
@@ -106,12 +111,12 @@ public class Player : MonoBehaviour
         }
     }
 
-     void PlayerMovement()
+    void PlayerMovement()
     {
-        
+
         Vector3 decelrationDirection = Vector3.zero;
         Vector3 accelerationDirection = Vector3.zero;
-        if(Keyboard.current.leftArrowKey.isPressed)
+        if (Keyboard.current.leftArrowKey.isPressed)
         {
             accelerationDirection += Vector3.left;
         }
@@ -134,13 +139,13 @@ public class Player : MonoBehaviour
         //AND THEN SET THE AMOUNT TO ACCELERATE BY:
         if (accelerationDirection != Vector3.zero)
         {
-            currentVelocity += accelerationDirection.normalized * currenetAcceleration * speed; 
+            currentVelocity += accelerationDirection.normalized * currenetAcceleration * speed;
         }
         else
         {
             currentVelocity += -currentVelocity.normalized * currenetAcceleration * speed;
         }
-       
+
 
         transform.position += currentVelocity * Time.deltaTime;
 
@@ -159,11 +164,54 @@ public class Player : MonoBehaviour
         if (enemyDitanceToPlayer >= enemyToPlayerThreshold)
         {
             enemySpeed = 3.5f;
-            
+
         }
         else if (enemyDitanceToPlayer <= enemyToPlayerThreshold)
         {
             enemySpeed = 1.5f;
+        }
+    }
+
+    public void EnenmyRadar(float radius)
+    {
+        float distanceToRadius = Vector2.Distance(enemyTransform.position, transform.position);
+
+        if (distanceToRadius <= radius)
+        {
+            circleColor = Color.red;
+        }
+        else
+        {
+            circleColor = Color.green;
+        }
+
+        for (int i = 0; i < circlePointAngles.Count; i++)
+        {
+            circlePointAngles[i] = i * (360 / circlePointAngles.Count);
+        }
+
+        //for (int i = 0; i < circlePointAngles.Count; i++)
+        //{
+        //    Vector2 pointPosition = new Vector2(Mathf.Cos(circlePointAngles[i] * Mathf.Deg2Rad), Mathf.Sin(circlePointAngles[i] * Mathf.Deg2Rad)) * radius;
+        //    Vector2 startPos = transform.position;
+        //    Debug.DrawLine(startPos, pointPosition + startPos, circleColor);
+        //}
+
+        for (int i = 0; i < circlePointAngles.Count; i++)
+        {
+            if (i < circlePointAngles.Count - 1)
+            {
+                Vector2 startPosition = new Vector2(Mathf.Cos(circlePointAngles[i] * Mathf.Deg2Rad), Mathf.Sin(circlePointAngles[i] * Mathf.Deg2Rad)) * radius;
+                Vector2 endPosition = new Vector2(Mathf.Cos(circlePointAngles[i + 1] * Mathf.Deg2Rad), Mathf.Sin(circlePointAngles[i + 1] * Mathf.Deg2Rad)) * radius;
+                Debug.DrawLine(startPosition + (Vector2)transform.position, endPosition + (Vector2)transform.position, circleColor);
+            }
+
+            else
+            {
+                Vector2 startPosition = new Vector2(Mathf.Cos(circlePointAngles[i] * Mathf.Deg2Rad), Mathf.Sin(circlePointAngles[i] * Mathf.Deg2Rad)) * radius;
+                Vector2 endPosition = new Vector2(Mathf.Cos(circlePointAngles[0] * Mathf.Deg2Rad), Mathf.Sin(circlePointAngles[0] * Mathf.Deg2Rad)) * radius;
+                Debug.DrawLine(startPosition + (Vector2)transform.position, endPosition + (Vector2)transform.position, circleColor);
+            }
         }
     }
 }
