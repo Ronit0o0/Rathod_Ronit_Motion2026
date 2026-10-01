@@ -22,6 +22,9 @@ public class Player : MonoBehaviour
     public List<float> circlePointAngles;
     public float radiusControl = 0f;
     public Color circleColor = Color.green;
+    public List<float> powerUps;
+    public GameObject powerUpsPrefab;
+    public float radiusControlPowerups = 0f;
     void Start()
     {
         currenetAcceleration = speed / maxSpeedTime;
@@ -30,7 +33,7 @@ public class Player : MonoBehaviour
 
     void Update()
     {
-
+        SpawnPowerups(radiusControlPowerups);
 
         if (Keyboard.current.bKey.wasPressedThisFrame)
         {
@@ -212,6 +215,18 @@ public class Player : MonoBehaviour
                 Vector2 endPosition = new Vector2(Mathf.Cos(circlePointAngles[0] * Mathf.Deg2Rad), Mathf.Sin(circlePointAngles[0] * Mathf.Deg2Rad)) * radius;
                 Debug.DrawLine(startPosition + (Vector2)transform.position, endPosition + (Vector2)transform.position, circleColor);
             }
+        }
+    }
+
+    public void SpawnPowerups(float radius)
+    {
+        for (int i = 0; i < powerUps.Count; i++)
+        {
+            float powerUpsPos = i * (360 / powerUps.Count);
+
+            float powerPosx = Mathf.Cos(powerUpsPos * Mathf.Deg2Rad) * radiusControlPowerups;
+            float powerPosy = Mathf.Cos(powerUpsPos * Mathf.Deg2Rad) * radiusControlPowerups;
+            Instantiate(powerUpsPrefab, transform.position * radius, Quaternion.identity);
         }
     }
 }
