@@ -229,4 +229,6 @@ public class Player : MonoBehaviour
             Instantiate(powerUpsPrefab, transform.position * radius, Quaternion.identity);
         }
     }
+
+    
 }
