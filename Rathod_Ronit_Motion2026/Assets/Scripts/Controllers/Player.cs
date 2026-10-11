@@ -1,9 +1,7 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using TreeEditor;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using Unity.VisualScripting;
-using System.Data.Common;
 
 
 public class Player : MonoBehaviour
@@ -25,6 +23,7 @@ public class Player : MonoBehaviour
     public List<float> powerUps;
     public GameObject powerUpsPrefab;
     public float radiusControlPowerups = 0f;
+    public float rotationSpeed;
     void Start()
     {
         currenetAcceleration = speed / maxSpeedTime;
@@ -54,6 +53,12 @@ public class Player : MonoBehaviour
         EnemyMovement(8f);
 
         EnenmyRadar(radiusControl);
+
+        PlayerMovementRotation();
+
+        
+
+
     }
 
     void SpawnBombAtOffset(Vector2 inOffset)
@@ -119,21 +124,23 @@ public class Player : MonoBehaviour
 
         Vector3 decelrationDirection = Vector3.zero;
         Vector3 accelerationDirection = Vector3.zero;
-        if (Keyboard.current.leftArrowKey.isPressed)
-        {
-            accelerationDirection += Vector3.left;
-        }
-        if (Keyboard.current.rightArrowKey.isPressed)
-        {
-            accelerationDirection += Vector3.right;
-        }
+
+        //if (Keyboard.current.leftArrowKey.isPressed)
+        //{
+        //    accelerationDirection += Vector3.left;
+        //}
+        //if (Keyboard.current.rightArrowKey.isPressed)
+        //{
+        //    accelerationDirection += Vector3.right;
+        //}
+
         if (Keyboard.current.upArrowKey.isPressed)
         {
-            accelerationDirection += Vector3.up;
+            accelerationDirection += transform.up;
         }
         if (Keyboard.current.downArrowKey.isPressed)
         {
-            accelerationDirection += Vector3.down;
+            accelerationDirection += -transform.up;
         }
 
         //Notes from Code share
@@ -230,5 +237,24 @@ public class Player : MonoBehaviour
         }
     }
 
-    
+    public void PlayerMovementRotation()
+    {
+
+        if (Keyboard.current.leftArrowKey.isPressed)
+        {
+            rotationSpeed = 180f;
+        }
+        else if (Keyboard.current.rightArrowKey.isPressed)
+        {
+            rotationSpeed = -180f;
+        }
+        else
+        {
+            rotationSpeed = 0f;
+        }
+
+        Vector3 currentRotation = transform.eulerAngles;
+        currentRotation.z += rotationSpeed * Time.deltaTime;
+        transform.eulerAngles = currentRotation;
+    }
 }

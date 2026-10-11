@@ -41,11 +41,13 @@ public class Planet : MonoBehaviour
         if (distanceToRadius <= radius)
         {
             circleColor = Color.red;
-            playerScript.speed = 2f;
+            playerScript.speed = 0.1f;
+            playerScript.rotationSpeed = 180f * Time.deltaTime;
         }
         else
         {
             circleColor = Color.white;
+            playerScript.speed = 0.5f;
         }
 
         for (int i = 0; i < circlePoints.Count; i++)
