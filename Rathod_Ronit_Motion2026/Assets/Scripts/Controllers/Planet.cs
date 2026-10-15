@@ -11,6 +11,7 @@ public class Planet : MonoBehaviour
     public Player playerScript;
     public List<float> circlePoints;
     public float radius = 0f;
+    public List<GameObject> spawnedPlanets;
     private Color circleColor = Color.white;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -33,6 +34,7 @@ public class Planet : MonoBehaviour
         if (timer >= spawnRate)
         {
             currentPlanet = Instantiate(planet, randomSpawn, Quaternion.identity);
+            spawnedPlanets.Add(currentPlanet);
             timer = 0f;
         }
 
@@ -42,35 +44,43 @@ public class Planet : MonoBehaviour
         {
             circleColor = Color.red;
             playerScript.speed = 0.1f;
-            playerScript.rotationSpeed = 180f * Time.deltaTime;
+            playerScript.planetRotationSpeed = 180f;
         }
         else
         {
             circleColor = Color.white;
             playerScript.speed = 0.5f;
+            playerScript.planetRotationSpeed = 0f;
         }
 
         for (int i = 0; i < circlePoints.Count; i++)
         {
             circlePoints[i] = i * (360 / circlePoints.Count);
         }
-
-        for (int i = 0; i < circlePoints.Count; i++)
+        
+        for (int j = 0; j < spawnedPlanets.Count; j++)
         {
-            if (i < circlePoints.Count - 1)
+            
+            for (int i = 0; i < circlePoints.Count; i++)
             {
-                Vector2 startPosition = new Vector2(Mathf.Cos(circlePoints[i] * Mathf.Deg2Rad), Mathf.Sin(circlePoints[i] * Mathf.Deg2Rad)) * radius;
-                Vector2 endPosition = new Vector2(Mathf.Cos(circlePoints[i + 1] * Mathf.Deg2Rad), Mathf.Sin(circlePoints[i + 1] * Mathf.Deg2Rad)) * radius;
-                Debug.DrawLine(startPosition + (Vector2)currentPlanet.transform.position, endPosition + (Vector2)currentPlanet.transform.position, circleColor);
-            }
+                if (i < circlePoints.Count - 1)
+                {
+                    Vector2 startPosition = new Vector2(Mathf.Cos(circlePoints[i] * Mathf.Deg2Rad), Mathf.Sin(circlePoints[i] * Mathf.Deg2Rad)) * radius;
+                    Vector2 endPosition = new Vector2(Mathf.Cos(circlePoints[i + 1] * Mathf.Deg2Rad), Mathf.Sin(circlePoints[i + 1] * Mathf.Deg2Rad)) * radius;
+                    Debug.DrawLine(startPosition + (Vector2)spawnedPlanets[j].transform.position, endPosition + (Vector2)spawnedPlanets[j].transform.position, circleColor);
+                }
 
-            else
-            {
-                Vector2 startPosition = new Vector2(Mathf.Cos(circlePoints[i] * Mathf.Deg2Rad), Mathf.Sin(circlePoints[i] * Mathf.Deg2Rad)) * radius;
-                Vector2 endPosition = new Vector2(Mathf.Cos(circlePoints[0] * Mathf.Deg2Rad), Mathf.Sin(circlePoints[0] * Mathf.Deg2Rad)) * radius;
-                Debug.DrawLine(startPosition + (Vector2)currentPlanet.transform.position, endPosition + (Vector2)currentPlanet.transform.position, circleColor);
+                else
+                {
+                    Vector2 startPosition = new Vector2(Mathf.Cos(circlePoints[i] * Mathf.Deg2Rad), Mathf.Sin(circlePoints[i] * Mathf.Deg2Rad)) * radius;
+                    Vector2 endPosition = new Vector2(Mathf.Cos(circlePoints[0] * Mathf.Deg2Rad), Mathf.Sin(circlePoints[0] * Mathf.Deg2Rad)) * radius;
+                    Debug.DrawLine(startPosition + (Vector2)spawnedPlanets[j].transform.position, endPosition + (Vector2)spawnedPlanets[j].transform.position, circleColor);
+                }
+                
             }
+            
         }
+        
 
     }
 }

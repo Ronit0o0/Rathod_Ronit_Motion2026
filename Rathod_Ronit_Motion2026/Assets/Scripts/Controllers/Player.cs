@@ -24,6 +24,7 @@ public class Player : MonoBehaviour
     public GameObject powerUpsPrefab;
     public float radiusControlPowerups = 0f;
     public float rotationSpeed;
+    public float planetRotationSpeed;
     void Start()
     {
         currenetAcceleration = speed / maxSpeedTime;
@@ -56,9 +57,9 @@ public class Player : MonoBehaviour
 
         PlayerMovementRotation();
 
-        
-
-
+        Vector3 currentRotation = transform.eulerAngles;
+        currentRotation.z += planetRotationSpeed * Time.deltaTime;
+        transform.eulerAngles = currentRotation;
     }
 
     void SpawnBombAtOffset(Vector2 inOffset)
