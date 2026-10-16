@@ -10,7 +10,7 @@ public class Player : MonoBehaviour
     public Transform enemyTransform;
     public GameObject bombPrefab;
     public Transform bombsTransform;
-    private Vector3 currentVelocity;
+    public Vector3 currentVelocity;
     public float speed = 5f;
     public float maxSpeedTime = 2f;
     public float currenetAcceleration;
@@ -120,7 +120,7 @@ public class Player : MonoBehaviour
         }
     }
 
-    void PlayerMovement()
+    public void PlayerMovement()
     {
 
         Vector3 decelrationDirection = Vector3.zero;

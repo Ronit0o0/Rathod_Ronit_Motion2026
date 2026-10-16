@@ -38,19 +38,21 @@ public class Planet : MonoBehaviour
             timer = 0f;
         }
 
-        float distanceToRadius = Vector2.Distance(playerScript.transform.position, currentPlanet.transform.position);
+        float distanceToRadius = Vector2.Distance(playerScript.transform.position, spawnedPlanets[spawnedPlanets.Count - 1].transform.position);
 
         if (distanceToRadius <= radius)
         {
             circleColor = Color.red;
-            playerScript.speed = 0.1f;
+            playerScript.speed = 0f;
             playerScript.planetRotationSpeed = 180f;
+            playerScript.currenetAcceleration = 0f ;
         }
         else
         {
             circleColor = Color.white;
-            playerScript.speed = 0.5f;
+            playerScript.speed = 0.1f;
             playerScript.planetRotationSpeed = 0f;
+            playerScript.currenetAcceleration = 0.25f;
         }
 
         for (int i = 0; i < circlePoints.Count; i++)
