@@ -42,7 +42,7 @@ public class Planet : MonoBehaviour
 
         //for (int k = 0; k < spawnedPlanets.Count; k++)
         //{
-            float distanceToRadius = Vector2.Distance(playerScript.transform.position, spawnedPlanets[k].transform.position);
+            float distanceToRadius = Vector2.Distance(playerScript.transform.position, spawnedPlanets[spawnedPlanets.Count - 1].transform.position);
 
             if (distanceToRadius <= radius)
             {
@@ -100,4 +100,4 @@ public class Planet : MonoBehaviour
 
         }
     }
-}
+
