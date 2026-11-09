@@ -15,6 +15,11 @@ public class ForcesTest : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
     }
 
+    void FixedUpdate()
+    {
+        rb.AddForce(Vector3.right * 1f, ForceMode2D.Force);
+    }
+
     // Update is called once per frame
     void Update()
     {
