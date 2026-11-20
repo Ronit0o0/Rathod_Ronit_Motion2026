@@ -221,7 +221,7 @@ GameObject:
   m_Component:
   - component: {fileID: 874392358}
   - component: {fileID: 874392359}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Body
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1667,7 +1667,7 @@ GameObject:
   - component: {fileID: 1433354316}
   - component: {fileID: 1433354313}
   - component: {fileID: 1433354317}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Player
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1708,7 +1708,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 86a1ce42ea3e3dd44868493ae73ec06d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Maxspeed: 2
+  playerRB: {fileID: 1433354317}
+  maxSpeed: 2
   accelerationTime: 3
 --- !u!4 &1433354315
 Transform:
@@ -1777,7 +1778,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1598075210}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Visuals
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1811,7 +1812,7 @@ GameObject:
   - component: {fileID: 2077868378}
   - component: {fileID: 2077868380}
   - component: {fileID: 2077868379}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: SkyTilemap
   m_TagString: Untagged
   m_Icon: {fileID: 0}
